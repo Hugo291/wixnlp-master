@@ -1,5 +1,11 @@
 import io
 import sys
+
+
+#re
+#re.compile() et sauvegarder l’expression rationnelle renvoyée pour la réutiliser est plus efficace
+# quand l’expression est amenée à être utilisée plusieurs fois dans un même programme.
+
 import re
 import codecs
 
@@ -89,7 +95,7 @@ class Verb:
             #retourn le resultat apres expression reg
             m = reg.match(self.verb)
 
-            print('m : '+str(m))
+
             if m:
                 #gotone passe a true si m est true
                 gotone= True
@@ -101,22 +107,36 @@ class Verb:
                 nprev = m.group()
                 npath = list(path)
                 npath.append((""+str(pos)+"", s))
+
                 self.start(nprev, pos+1, npath)
                 nprev = nprev.replace("+","\+")
+
+
+                #boucle sur le contenu du fihier stream
                 for root in self.roots:
+
+                    #on ajout un / a tous les + de chaque route
                     root2 = root.replace("+","\+")
+
+                    #creation du preg
                     rootmatch=re.compile("^"+nprev+root2+"+")
+
                     rm = rootmatch.match(self.verb)
                     if rm:
+
+                        # si en debug
                         if self.debug:
                             print("Found:" + "[root]" + rm.group())
                             print("Found:" + "[root]" + root)
+
                         nrprev = rm.group()
                         nrpath = list(npath)
                         nrpath.append(("", root))#id of steam TODO
-                        
+
+                        # si en debug
                         if self.debug:
                             print(nrprev)
+
                         if len(self.verb) == len(nrprev):
                             self.paths.append(nrpath)
                         self.end(prev=nrprev,path=nrpath)
@@ -164,6 +184,10 @@ class Verb:
         #if not gotone:
         self.end(prev, pos+1, path)
 
+    def __str__(self):
+        return 'verbe : '+self.verb
+
+
 class Word:
     def __init__(self, model_file):
         F = codecs.open("dic", mode="r", encoding="utf-8")
@@ -195,6 +219,6 @@ class Word:
 
 if __name__ == "__main__":
 
-    v = Verb('ena ha p+yema', debug=0)
-    print('v : '+str(v.__str__()))
+    v = Verb("'ena ha p+xuawe", debug=0)
+    print('v : '+str(v))
 
