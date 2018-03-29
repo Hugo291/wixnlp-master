@@ -8,7 +8,7 @@ from wix.wixaffixes import pre, post
 
 class Verb:
     def __init__(self, verb, debug=0):
-        #!!!!!!!!!!!!il le petit caractere
+        #!!!!!!!!!!!!il met en petit caractere
         self.verb = verb.lower()
         #print(self.verb)
 
@@ -52,22 +52,52 @@ class Verb:
         self.start()
 
     def start(self, prev="", pos=0, path=[]):
+        #pre est une liste contenue dans le fichier
+        #si la taille de la liste pre -1  est inferieur a la postiion on stop le programme
         if pos > len(pre)-1:
             return
+
+        #si le debug est a 1
         if self.debug:
             print("New branch: ", str(pos), str(prev), str(path))
+
+        #gotone est faux par defaut
         gotone = False
+
+        #on parcour la liste pre a la position rentrer
         for s in pre[pos]:
+
+            #exemple de pre[pos]
+            #pre[pos]  = ["'a", 'a', 'ke', 'u', "'u", 'e', "'e"] & pos = 0
+            #s = 'a
+
+            #on ajoute \ a +
+            #s avec le reg
             s_reg = s.replace("+", "\+")
+
+            #on ajoute \ a + dans le
+            #prev avec le reg
             prev_reg=prev.replace("+", "\+")
+
+            #si en debug
             if self.debug:
                 print("Searching ^"+prev_reg+s_reg+"+")
+            #ajoute une expression reguliere
+            #prev avec le reg et s avec le reg
             reg = re.compile("^"+prev_reg+s_reg+"+")
+
+            #retourn le resultat apres expression reg
             m = reg.match(self.verb)
+
+            print('m : '+str(m))
             if m:
+                #gotone passe a true si m est true
                 gotone= True
+
+                #si en debug
                 if self.debug:
                     print("Found:" + str(pos) + m.group())
+
                 nprev = m.group()
                 npath = list(path)
                 npath.append((""+str(pos)+"", s))
@@ -165,8 +195,6 @@ class Word:
 
 if __name__ == "__main__":
 
-    v = Verb('hugo', debug=1)
+    v = Verb('ena ha p+yema', debug=0)
     print('v : '+str(v.__str__()))
 
-
-#test
