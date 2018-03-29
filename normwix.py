@@ -22,7 +22,13 @@ import sys
 import re
 
 def normwix(text):
+    #Remplace les caractères non voulues d'une chaine de caractere donnée en entrée.
+    #Transcris le texte en minuscules.
     text = text.lower()
+
+    #Pour éviter que les caractères précédées d’un \ ne soient interprétés comme  étant
+    # spéciaux, utilisez les chaînes brutes(raw strings) en préfixant la chaîne d’un r
+
     text = re.sub(r"´", "'", text, flags=re.IGNORECASE)
     #text = re.sub(r"'", "", text, flags=re.IGNORECASE)
     text = re.sub(r"v", "w", text, flags=re.IGNORECASE)
@@ -40,17 +46,25 @@ def normwix(text):
     text = re.sub(r"[óòö]", "o", text, flags=re.IGNORECASE)
     text = re.sub(r"[úù]", "u", text, flags=re.IGNORECASE)
 
-
     text = re.sub(r"([a-z+])\1+", r"\1", text, flags=re.IGNORECASE)
     return text
 
 
 def tokenizewix(text):
+    #  pour  print(tokenizewix('-bon?jo?ur')) | on a en retour  '- bon ? jo ? ur'
+
+
+    # Pour éviter que les caractères précédées d’un \ ne soient interprétés comme  étant spéciaux,
+    # utilisez les chaînes brutes(raw strings) en préfixant la chaîne d’un r
+
     text = re.sub(r"(?<![\s])([.|,|,\-,\"|:|;|¿|?|¡|!])", r" \1", text)
     text = re.sub(r"([.|,|,\-,\"|:|;|¿|?|¡|!])(?<![\s])", r"\1 ", text)
     return text
 
 if __name__ == "__main__":
+
+    #POURQUOI la variable l qui n'est jamais utilisée ?
+
     l = 4
     if len(sys.argv) < 2:
         print("normwix.py normalize and tokenize text in wixárika (huichol) ")
