@@ -20,7 +20,7 @@ class Verb:
 
         self.paths = []
 
-        #contient les lignes du fihier stream
+        #contient les lignes du fichier stream
         self.roots = []
 
         self.rootslarge = []
@@ -36,7 +36,7 @@ class Verb:
 
         #Lecture du fichier
         while 1:
-            #supprimssion des saut de ligne
+            #suppression des sauts de ligne
             line=line.replace("\n", "")
 
             #on ajoute la ligne au roots
